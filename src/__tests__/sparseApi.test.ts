@@ -1,6 +1,10 @@
 import { TSESLint, TSESTree } from '@typescript-eslint/utils';
 import { getSparseApi } from '../utils/sparseApi';
+import ts from 'typescript';
 import { createRuleTester } from './ruleTester';
+
+const [major, minor] = ts.version.split('.').map(Number) as [number, number];
+const supportsStringImportNames = major > 5 || (major === 5 && minor >= 6);
 
 /** Reports what every call and JSX element resolves to. */
 const resolveRule: TSESLint.RuleModule<'resolved', []> = {
@@ -61,11 +65,16 @@ createRuleTester().run('sparse API', resolveRule, {
                    define(); useSparseSegments(); <SparseScope />;`,
       errors: resolved('defineSegment', 'useSparseSegments', 'SparseScope'),
     },
-    {
-      code: `import { 'defineSegment' as define } from 'redux-sparse-kit';
+    // Import names written as strings parse from TypeScript 5.6 on.
+    ...(supportsStringImportNames
+      ? [
+          {
+            code: `import { 'defineSegment' as define } from 'redux-sparse-kit';
                    define();`,
-      errors: resolved('defineSegment'),
-    },
+            errors: resolved('defineSegment'),
+          },
+        ]
+      : []),
     {
       code: `import * as sparse from 'redux-sparse-kit/react';
                    sparse.useSparseSegments(); <sparse.SparseScope />;`,
