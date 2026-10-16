@@ -65,6 +65,13 @@ createTypedRuleTester().run('no-static-state-key', noStaticStateKeyRule, {
       errors: [reported('router'), reported('session')],
     },
     {
+      code: `import { defineSegment } from './wrapper';
+             ${reducer}
+             export const routing = defineSegment({ key: 'router', reducer });`,
+      errors: [reported('router')],
+      settings: { 'redux-sparse-kit': { importSources: ['./wrapper'] } },
+    },
+    {
       code: `import { defineSegment } from './barrel';
              ${reducer}
              export const routing = defineSegment({ key: 'router', reducer });`,

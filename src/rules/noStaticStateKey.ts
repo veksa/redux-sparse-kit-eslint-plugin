@@ -7,21 +7,15 @@ type MessageIds = 'static-state-key';
 type Rule = TSESLint.RuleModule<MessageIds, []>;
 
 /**
- * The `StaticState` interface declared next to `defineSegment`, with the
- * augmentations the program adds to it.
+ * The `StaticState` interface declared next to the type of the segment, with
+ * the augmentations the program adds to it. Read from the segment rather than
+ * from the function called, so that a function wrapping `defineSegment` is
+ * checked too.
  */
-const getStaticState = (callee: ts.Node, checker: ts.TypeChecker): ts.Type | undefined => {
-  // The callee is an import, or a member of a namespace import: both resolve
-  // to a declared function.
-  let symbol = checker.getSymbolAtLocation(
-    ts.isPropertyAccessExpression(callee) ? callee.name : callee,
-  )!;
-
-  if (symbol.flags & ts.SymbolFlags.Alias) {
-    symbol = checker.getAliasedSymbol(symbol);
-  }
-
-  const staticState = symbol
+const getStaticState = (segment: ts.Type, checker: ts.TypeChecker): ts.Type | undefined => {
+  // A type with a key and a reducer is declared somewhere.
+  const staticState = segment
+    .getSymbol()!
     .declarations![0]!.getSourceFile()
     .statements.find(
       (statement): statement is ts.InterfaceDeclaration =>
@@ -75,7 +69,7 @@ const create: Rule['create'] = (context) => {
         return;
       }
 
-      const staticState = getStaticState(call.expression, checker);
+      const staticState = getStaticState(segment, checker);
       if (!staticState) {
         return;
       }
