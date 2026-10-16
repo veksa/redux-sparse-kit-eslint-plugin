@@ -1,6 +1,6 @@
 import { meta, reduxSparseKitPlugin, rules } from '../index';
 
-const ruleNames = ['no-define-segment-in-render'];
+const ruleNames = ['no-define-segment-in-render', 'no-duplicate-segments'];
 
 describe('plugin', () => {
   it('is named after redux-sparse-kit', () => {

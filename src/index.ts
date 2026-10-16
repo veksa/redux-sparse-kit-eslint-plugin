@@ -1,5 +1,6 @@
 import type { TSESLint } from '@typescript-eslint/utils';
 import { noDefineSegmentInRenderRule } from './rules/noDefineSegmentInRender';
+import { noDuplicateSegmentsRule } from './rules/noDuplicateSegments';
 
 const meta = {
   name: 'redux-sparse-kit',
@@ -7,6 +8,7 @@ const meta = {
 
 const rules = {
   'no-define-segment-in-render': noDefineSegmentInRenderRule,
+  'no-duplicate-segments': noDuplicateSegmentsRule,
 };
 
 const plugin = { meta, rules };
@@ -19,6 +21,7 @@ const recommended: TSESLint.FlatConfig.ConfigArray = [
     },
     rules: {
       'redux-sparse-kit/no-define-segment-in-render': 'error',
+      'redux-sparse-kit/no-duplicate-segments': 'error',
     },
   },
 ];
