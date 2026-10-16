@@ -31,7 +31,14 @@ const lint = async (config: keyof typeof reduxSparseKitPlugin.configs) => {
         files: ['**/*.ts'],
         languageOptions: {
           parser: tsParser,
-          parserOptions: { project: './tsconfig.eslint.json', tsconfigRootDir: root },
+          parserOptions: {
+            // With CI set, typescript-eslint would assume the files on disk do
+            // not change and read fixtures/file.ts from disk, not the text
+            // linted here.
+            disallowAutomaticSingleRunInference: true,
+            project: './tsconfig.eslint.json',
+            tsconfigRootDir: root,
+          },
         },
       },
       ...reduxSparseKitPlugin.configs[config],
