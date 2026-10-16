@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 import { RuleTester } from '@typescript-eslint/rule-tester';
-import tsParser from '@typescript-eslint/parser';
+import * as tsParser from '@typescript-eslint/parser';
 
 /** A rule tester for rules that need no type information. */
 export const createRuleTester = (): RuleTester =>
