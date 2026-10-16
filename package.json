@@ -1,0 +1,67 @@
+{
+  "name": "eslint-plugin-redux-sparse-kit",
+  "version": "0.0.0",
+  "description": "ESLint rules for redux-sparse-kit segments and scopes",
+  "keywords": [
+    "dynamic-reducers",
+    "eslint",
+    "eslintplugin",
+    "redux",
+    "redux-sparse-kit"
+  ],
+  "homepage": "https://github.com/veksa/redux-sparse-kit-eslint-plugin#readme",
+  "bugs": {
+    "url": "https://github.com/veksa/redux-sparse-kit-eslint-plugin/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Aleksandr Khizhnyi",
+    "email": "mendler88@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/veksa/redux-sparse-kit-eslint-plugin.git"
+  },
+  "files": [
+    "lib/"
+  ],
+  "sideEffects": false,
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "scripts": {
+    "compile": "tsc --noEmit",
+    "lint": "oxlint src/",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "build": "shx rm -rf lib && tsc --outDir lib -m node16 --moduleResolution node16 --declaration"
+  },
+  "dependencies": {
+    "@typescript-eslint/utils": "^8.66.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.3",
+    "@typescript-eslint/parser": "^8.66.0",
+    "@typescript-eslint/rule-tester": "^8.66.0",
+    "eslint": "^10.8.1",
+    "jest": "^30.4.2",
+    "oxfmt": "^0.63.0",
+    "oxlint": "^1.78.0",
+    "shx": "^0.4.0",
+    "ts-jest": "^29.4.12",
+    "typescript": "6.0.3"
+  },
+  "peerDependencies": {
+    "eslint": "^8.57.0 || ^9.0.0 || ^10.0.0"
+  },
+  "packageManager": "yarn@4.18.0"
+}

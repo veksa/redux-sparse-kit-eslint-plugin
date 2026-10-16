@@ -1,0 +1,113 @@
+name: CI
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build and test on Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['20.x', '22.x', '24.x']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Check formatting
+        run: yarn fmt:check
+
+      - name: Run linter
+        run: yarn lint
+
+      - name: Type-check sources
+        run: yarn compile
+
+      - name: Run tests
+        run: yarn test:coverage
+
+      - name: Build
+        run: yarn build
+
+  test-eslint:
+    name: Test with ESLint ${{ matrix.eslint }}
+    needs: [build-and-test]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['24.x']
+        eslint: ['8.57', '9', '10']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Install ESLint ${{ matrix.eslint }}
+        run: yarn add --dev eslint@${{ matrix.eslint }}
+
+      - name: Run tests
+        run: |
+          yarn eslint --version
+          yarn test
+
+  test-typescript:
+    name: Test with TypeScript ${{ matrix.ts }}
+    needs: [build-and-test]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['24.x']
+        # @typescript-eslint/typescript-estree supports >=4.8.4 <6.1.0.
+        ts: ['5.4', '5.5', '5.6', '5.7', '5.8', '5.9', '6.0']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Install TypeScript ${{ matrix.ts }}
+        run: yarn add --dev typescript@${{ matrix.ts }}
+
+      - name: Run tests
+        run: |
+          yarn tsc --version
+          yarn compile
+          yarn test
