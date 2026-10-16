@@ -2401,11 +2401,15 @@ __metadata:
     jest: "npm:^30.4.2"
     oxfmt: "npm:^0.63.0"
     oxlint: "npm:^1.78.0"
+    redux: "npm:^5.0.1"
+    redux-sparse-kit: "npm:0.1.0"
     shx: "npm:^0.4.0"
     ts-jest: "npm:^29.4.12"
     typescript: "npm:6.0.3"
   peerDependencies:
+    "@typescript-eslint/parser": ^8.44.1
     eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
+    typescript: ">=5.4 <6.1"
   languageName: unknown
   linkType: soft
 
@@ -4255,6 +4259,29 @@ __metadata:
   dependencies:
     resolve: "npm:^1.1.6"
   checksum: 10/fe76bf9c21875ac16e235defedd7cbd34f333c02a92546142b7911a0f7c7059d2e16f441fe6fb9ae203f459c05a31b2bcf26202896d89e390eda7514d5d2702b
+  languageName: node
+  linkType: hard
+
+"redux-sparse-kit@npm:0.1.0":
+  version: 0.1.0
+  resolution: "redux-sparse-kit@npm:0.1.0"
+  peerDependencies:
+    react: ">=18.0.0"
+    redux: ^5.0.0
+    rxjs: ^7.0.0
+  peerDependenciesMeta:
+    react:
+      optional: true
+    rxjs:
+      optional: true
+  checksum: 10/a4600bfd42f399dfd7b9c0f259e811bb8464ead59b82aa67ac82b8dfdc6cf31d132796e0a62f9d92d584b4ed3211add8fccfecd5d01c51f34feb60e65e3d28e1
+  languageName: node
+  linkType: hard
+
+"redux@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "redux@npm:5.0.1"
+  checksum: 10/a373f9ed65693ead58bea5ef61c1d6bef39da9f2706db3be6f84815f3a1283230ecd1184efb1b3daa7f807d8211b0181564ca8f336fc6ee0b1e2fa0ba06737c2
   languageName: node
   linkType: hard
 

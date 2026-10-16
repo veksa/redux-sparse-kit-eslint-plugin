@@ -1,6 +1,7 @@
 import type { TSESLint } from '@typescript-eslint/utils';
 import { noDefineSegmentInRenderRule } from './rules/noDefineSegmentInRender';
 import { noDuplicateSegmentsRule } from './rules/noDuplicateSegments';
+import { noStaticStateKeyRule } from './rules/noStaticStateKey';
 import { releaseAcquiredSegmentsRule } from './rules/releaseAcquiredSegments';
 
 const meta = {
@@ -10,11 +11,13 @@ const meta = {
 const rules = {
   'no-define-segment-in-render': noDefineSegmentInRenderRule,
   'no-duplicate-segments': noDuplicateSegmentsRule,
+  'no-static-state-key': noStaticStateKeyRule,
   'release-acquired-segments': releaseAcquiredSegmentsRule,
 };
 
 const plugin = { meta, rules };
 
+/** The rules that need no type information. */
 const recommended: TSESLint.FlatConfig.ConfigArray = [
   {
     name: 'redux-sparse-kit/recommended',
@@ -29,10 +32,24 @@ const recommended: TSESLint.FlatConfig.ConfigArray = [
   },
 ];
 
+/** Every rule, for projects linted with type information. */
+const recommendedTypeChecked: TSESLint.FlatConfig.ConfigArray = [
+  ...recommended,
+  {
+    name: 'redux-sparse-kit/recommended-type-checked',
+    rules: {
+      'redux-sparse-kit/no-static-state-key': 'error',
+    },
+  },
+];
+
 export const reduxSparseKitPlugin = {
   meta,
   rules,
-  configs: { recommended },
+  configs: {
+    recommended,
+    'recommended-type-checked': recommendedTypeChecked,
+  },
 };
 
 /**
