@@ -42,7 +42,8 @@
     "fmt:check": "oxfmt --check",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "build": "shx rm -rf lib && tsc --outDir lib -m node16 --moduleResolution node16 --declaration"
+    "build": "shx rm -rf lib && tsc --outDir lib -m node16 --moduleResolution node16 --declaration",
+    "prepack": "yarn build"
   },
   "dependencies": {
     "@typescript-eslint/utils": "^8.66.0"
